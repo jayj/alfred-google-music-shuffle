@@ -30,17 +30,20 @@ on gmusicSendAction()
 
         repeat while is_loaded is false
             tell active tab of first window to execute javascript "
-                var loading = document.getElementById('loading-progress');
-                loading.style.display;"
+                var loading = document.getElementById('loading-progress'),
+                    button = document.querySelector('[data-id=\"shuffle-my-library\"]' );
+
+                if (button && ! loading) { 'loaded' }"
 
             -- The loading screen is gone, the page is loaded
-            if result is "none" then set is_loaded to true
+            if result is "loaded" then set is_loaded to true
 
             -- Wait a bit before checking again
             delay 0.5
         end repeat
 
         -- Click the shuffle button
+
         tell active tab of first window to execute javascript "document.querySelector('[data-id=\"shuffle-my-library\"]' ).click();"
 
     end tell

@@ -13,3 +13,9 @@ If Google Music is already open in Chrome, it will shuffle the music immediately
 Download the `google-music-shuffle.alfredworkflow` file and open it to import into Alfred 2.
 
 You'll need to have the Powerpack to use this workflow.
+
+### Changelog
+
+#### 1.0.1
+
+* Bug fix ([a67e38623](https://github.com/jayj/alfred-google-music-shuffle/commit/a67e38623b8c2ceed10624bf45365f880d1fa270)): Fix load detection as it broke after a recent Google Music update. Fixes [#1](https://github.com/jayj/alfred-google-music-shuffle/issues/1)

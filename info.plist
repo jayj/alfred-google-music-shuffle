@@ -2,172 +2,182 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>bundleid</key>
-    <string>jayj-google-music-shuffle</string>
-    <key>category</key>
-    <string>Internet</string>
-    <key>connections</key>
-    <dict>
-        <key>C10E966D-D737-4F08-92CC-5D2EAEA527A4</key>
-        <array>
-            <dict>
-                <key>destinationuid</key>
-                <string>380731B3-83F7-49BC-9BAA-63C27C271083</string>
-                <key>modifiers</key>
-                <integer>0</integer>
-                <key>modifiersubtext</key>
-                <string></string>
-            </dict>
-        </array>
-    </dict>
-    <key>createdby</key>
-    <string>Jesper Johansen</string>
-    <key>description</key>
-    <string>Shuffle music</string>
-    <key>disabled</key>
-    <false/>
-    <key>name</key>
-    <string>Google Music Shuffle</string>
-    <key>objects</key>
-    <array>
-        <dict>
-            <key>config</key>
-            <dict>
-                <key>argumenttype</key>
-                <integer>2</integer>
-                <key>keyword</key>
-                <string>shuffle</string>
-                <key>subtext</key>
-                <string>Shuffle on Google Music</string>
-                <key>text</key>
-                <string>Shuffle music</string>
-                <key>withspace</key>
-                <false/>
-            </dict>
-            <key>type</key>
-            <string>alfred.workflow.input.keyword</string>
-            <key>uid</key>
-            <string>C10E966D-D737-4F08-92CC-5D2EAEA527A4</string>
-            <key>version</key>
-            <integer>0</integer>
-        </dict>
-        <dict>
-            <key>config</key>
-            <dict>
-                <key>escaping</key>
-                <integer>127</integer>
-                <key>script</key>
-                <string>#!/usr/bin/env osascript
+	<key>bundleid</key>
+	<string>jayj-google-music-shuffle</string>
+	<key>category</key>
+	<string>Internet</string>
+	<key>connections</key>
+	<dict>
+		<key>C10E966D-D737-4F08-92CC-5D2EAEA527A4</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>380731B3-83F7-49BC-9BAA-63C27C271083</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
+	</dict>
+	<key>createdby</key>
+	<string>Jesper Johansen</string>
+	<key>description</key>
+	<string>Shuffle your music or play the "I'm feeling lucky" radio</string>
+	<key>disabled</key>
+	<false/>
+	<key>name</key>
+	<string>Google Music Shuffle</string>
+	<key>objects</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>keyword</key>
+				<string>shuffle</string>
+				<key>subtext</key>
+				<string>Shuffle on Google Music</string>
+				<key>text</key>
+				<string>Shuffle music</string>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>C10E966D-D737-4F08-92CC-5D2EAEA527A4</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>#!/usr/bin/env osascript
 
 -- Open Google Music in a new or existing tab
 on gmusicOpenTab()
-    tell application "/Applications/Google Chrome.app"
-        -- Google Music is open, focus on the tab
-        repeat with w in windows
-            set i to 1
-            repeat with t in tabs of w
-                if URL of t contains "play.google.com/music" then
-                    set active tab index of w to i
-                    set index of w to 1
-                    return
-                end if
-                set i to i + 1
-            end repeat
-        end repeat
+	tell application "/Applications/Google Chrome.app"
+		-- Google Music is open, focus on the tab
+		repeat with w in windows
+			set i to 1
+			repeat with t in tabs of w
+				if URL of t contains "play.google.com/music" then
+					set active tab index of w to i
+					set index of w to 1
+					return
+				end if
+				set i to i + 1
+			end repeat
+		end repeat
 
-        -- Google Music is not open, open new tab
-        open location "https://play.google.com/music/listen#/ap/queue"
-    end tell
+		-- Google Music is not open, open new tab
+		open location "https://play.google.com/music/listen#/ap/queue"
+	end tell
 end gmusicOpenTab
 
 -- Shuffle the music
 on gmusicSendAction()
-    tell application "/Applications/Google Chrome.app"
+	tell application "/Applications/Google Chrome.app"
 
-        -- Check if the Google Music is loaded
-        set is_loaded to false
+		-- Check if the Google Music is loaded
+		set is_loaded to false
 
-        repeat while is_loaded is false
-            tell active tab of first window to execute javascript "
-                var loading = document.getElementById('loading-progress'),
-                    button = document.querySelector('[data-id=\"shuffle-my-library\"]' );
+		repeat while is_loaded is false
+			tell active tab of first window to execute javascript "
+				var loading = document.getElementById('loading-progress'),
+					button = document.querySelector('[data-id=\"shuffle-my-library\"]' );
 
-                if (button &amp;&amp; ! loading) { 'loaded' }"
+				if (button &amp;&amp; ! loading) { 'loaded' }"
 
-            -- The loading screen is gone, the page is loaded
-            if result is "loaded" then set is_loaded to true
+			-- The loading screen is gone, the page is loaded
+			if result is "loaded" then set is_loaded to true
 
-            -- Wait a bit before checking again
-            delay 0.5
-        end repeat
+			-- Wait a bit before checking again
+			delay 0.5
+		end repeat
 
-        -- Click the shuffle button
+		-- Click the shuffle or "I'm feeling lucky" button
+		if ("lucky" is equal to "{query}" or "radio" is equal to "{query}") then
+			tell active tab of first window to execute javascript "document.querySelector('[data-id=\"im-feeling-lucky\"]' ).click();"
+		else
+			tell active tab of first window to execute javascript "document.querySelector('[data-id=\"shuffle-my-library\"]' ).click();"
+		end if
 
-        tell active tab of first window to execute javascript "document.querySelector('[data-id=\"shuffle-my-library\"]' ).click();"
-
-    end tell
+	end tell
 end gmusicSendAction
 
 on run {}
-    gmusicOpenTab()
-    gmusicSendAction()
+	gmusicOpenTab()
+	gmusicSendAction()
 end run</string>
-                <key>type</key>
-                <integer>6</integer>
-            </dict>
-            <key>type</key>
-            <string>alfred.workflow.output.script</string>
-            <key>uid</key>
-            <string>380731B3-83F7-49BC-9BAA-63C27C271083</string>
-            <key>version</key>
-            <integer>0</integer>
-        </dict>
-    </array>
-    <key>readme</key>
-    <string>Alfred workflow to shuffle music on Google Music in Chrome.
+				<key>type</key>
+				<integer>6</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.script</string>
+			<key>uid</key>
+			<string>380731B3-83F7-49BC-9BAA-63C27C271083</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+	</array>
+	<key>readme</key>
+	<string>Alfred workflow to shuffle music on Google Music in Chrome.
 
 Trigger: `shuffle`
 
-If Google Music is already open in Chrome, it will shuffle the music immediately. If not, it will open a new tab, wait for the page to load, and then shuffle the music.</string>
-    <key>uidata</key>
-    <dict>
-        <key>06C9C4A9-38CE-441A-8D06-E2F2D8B39B60</key>
-        <dict>
-            <key>ypos</key>
-            <real>270</real>
-        </dict>
-        <key>380731B3-83F7-49BC-9BAA-63C27C271083</key>
-        <dict>
-            <key>ypos</key>
-            <real>70</real>
-        </dict>
-        <key>7DD3BDE5-A157-42E5-9376-F681FB50A4EE</key>
-        <dict>
-            <key>ypos</key>
-            <real>60</real>
-        </dict>
-        <key>A724FE2E-A195-44DF-9F78-FF9A8781B220</key>
-        <dict>
-            <key>ypos</key>
-            <real>60</real>
-        </dict>
-        <key>C10E966D-D737-4F08-92CC-5D2EAEA527A4</key>
-        <dict>
-            <key>ypos</key>
-            <real>70</real>
-        </dict>
-        <key>C8B08F32-A1AA-4A7F-AFE5-636F97434C7D</key>
-        <dict>
-            <key>ypos</key>
-            <real>60</real>
-        </dict>
-        <key>F22A7A13-B46A-4893-990B-294936F038AF</key>
-        <dict>
-            <key>ypos</key>
-            <real>160</real>
-        </dict>
-    </dict>
-    <key>webaddress</key>
-    <string>http://jayj.dk</string>
+If Google Music is already open in Chrome, it will shuffle the music immediately. If not, it will open a new tab, wait for the page to load, and then shuffle the music.
+
+The workflow also supports the "I'm feeling lucky" radio by adding the `lucky` or `radio` argument after shuffle.</string>
+	<key>uidata</key>
+	<dict>
+		<key>06C9C4A9-38CE-441A-8D06-E2F2D8B39B60</key>
+		<dict>
+			<key>ypos</key>
+			<real>270</real>
+		</dict>
+		<key>380731B3-83F7-49BC-9BAA-63C27C271083</key>
+		<dict>
+			<key>ypos</key>
+			<real>70</real>
+		</dict>
+		<key>4E8505CA-F6B7-4C91-8F74-DEA732A88212</key>
+		<dict>
+			<key>ypos</key>
+			<real>170</real>
+		</dict>
+		<key>7DD3BDE5-A157-42E5-9376-F681FB50A4EE</key>
+		<dict>
+			<key>ypos</key>
+			<real>60</real>
+		</dict>
+		<key>A724FE2E-A195-44DF-9F78-FF9A8781B220</key>
+		<dict>
+			<key>ypos</key>
+			<real>60</real>
+		</dict>
+		<key>C10E966D-D737-4F08-92CC-5D2EAEA527A4</key>
+		<dict>
+			<key>ypos</key>
+			<real>70</real>
+		</dict>
+		<key>C8B08F32-A1AA-4A7F-AFE5-636F97434C7D</key>
+		<dict>
+			<key>ypos</key>
+			<real>60</real>
+		</dict>
+		<key>F22A7A13-B46A-4893-990B-294936F038AF</key>
+		<dict>
+			<key>ypos</key>
+			<real>160</real>
+		</dict>
+	</dict>
+	<key>webaddress</key>
+	<string>http://jayj.dk</string>
 </dict>
 </plist>

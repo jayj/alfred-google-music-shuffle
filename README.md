@@ -4,9 +4,15 @@
 
 Trigger: `shuffle`
 
-![The Alfred window](http://imgur.com/OHNEYQW.png)
+![The Alfred window](http://imgur.com/UBo4UsI.png)
 
 If Google Music is already open in Chrome, it will shuffle the music immediately. If not, it will open a new tab, wait for the page to load, and then shuffle the music.
+
+The workflow also supports the "I'm feeling lucky" radio by adding the `lucky` or `radio` argument after `shuffle`:
+
+![Shuffle radio](http://imgur.com/C545hPD.png)
+
+
 
 ### Download
 
@@ -15,6 +21,10 @@ Download the `google-music-shuffle.alfredworkflow` file and open it to import in
 You'll need to have the Powerpack to use this workflow.
 
 ### Changelog
+
+#### 1.0.2
+
+* Added support for the "I'm feeling lucky" radio
 
 #### 1.0.1
 

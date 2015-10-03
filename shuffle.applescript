@@ -42,12 +42,17 @@ on gmusicSendAction()
             delay 0.5
         end repeat
 
-        -- Click the shuffle or "I'm feeling lucky" button
+        -- Click the shuffle, Latest playlist, or "I'm feeling lucky" button
         if ("lucky" is equal to "{query}" or "radio" is equal to "{query}") then
             tell active tab of first window to execute javascript "document.querySelector('[data-id=\"im-feeling-lucky\"]' ).click();"
+        else if ("latest" is equal to "{query}") then
+            tell active tab of first window to execute javascript "document.querySelector('[data-id=\"auto-playlist-recent\"]' ).click(); document.querySelector('[data-id=\"shuffle\"]' ).click();"
         else
             tell active tab of first window to execute javascript "document.querySelector('[data-id=\"shuffle-my-library\"]' ).click();"
         end if
+
+        -- Open the queue window
+        tell active tab of first window to execute javascript "document.querySelector('[data-id=\"queue\"]' ).click();"
 
     end tell
 end gmusicSendAction

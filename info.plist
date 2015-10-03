@@ -38,7 +38,7 @@
 				<key>keyword</key>
 				<string>shuffle</string>
 				<key>subtext</key>
-				<string>Shuffle on Google Music</string>
+				<string>Optional arguments: latest, lucky, or radio</string>
 				<key>text</key>
 				<string>Shuffle music</string>
 				<key>withspace</key>
@@ -54,6 +54,8 @@
 		<dict>
 			<key>config</key>
 			<dict>
+				<key>concurrently</key>
+				<false/>
 				<key>escaping</key>
 				<integer>127</integer>
 				<key>script</key>
@@ -104,9 +106,14 @@ on gmusicSendAction()
 		-- Click the shuffle or "I'm feeling lucky" button
 		if ("lucky" is equal to "{query}" or "radio" is equal to "{query}") then
 			tell active tab of first window to execute javascript "document.querySelector('[data-id=\"im-feeling-lucky\"]' ).click();"
+		else if ("latest" is equal to "{query}") then
+			tell active tab of first window to execute javascript "document.querySelector('[data-id=\"auto-playlist-recent\"]' ).click(); document.querySelector('[data-id=\"shuffle\"]' ).click();"	
 		else
 			tell active tab of first window to execute javascript "document.querySelector('[data-id=\"shuffle-my-library\"]' ).click();"
 		end if
+
+		-- Go to the queue playlist
+		tell active tab of first window to execute javascript "document.querySelector('[data-id=\"queue\"]' ).click();"
 
 	end tell
 end gmusicSendAction
@@ -133,7 +140,7 @@ Trigger: `shuffle`
 
 If Google Music is already open in Chrome, it will shuffle the music immediately. If not, it will open a new tab, wait for the page to load, and then shuffle the music.
 
-The workflow also supports the "I'm feeling lucky" radio by adding the `lucky` or `radio` argument after shuffle.</string>
+The workflow also supports the “Last added” playlist and the "I'm feeling lucky" radio by adding the either `latest`, or `lucky`/`radio` argument after shuffle.</string>
 	<key>uidata</key>
 	<dict>
 		<key>06C9C4A9-38CE-441A-8D06-E2F2D8B39B60</key>

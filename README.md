@@ -1,6 +1,6 @@
 ## Alfred Google Music Shuffle
 
-#### Alfred workflow to shuffle music on Google Music in Chrome.
+#### Alfred workflow to shuffle music on Google Music in Chrome. Works with both Alfred 2 and 3
 
 
 #### Shuffle all songs
@@ -25,11 +25,16 @@ Trigger: `shuffle lucky` or `shuffle radio`
 
 ### Download
 
-Download the `google-music-shuffle.alfredworkflow` file and open it to import into Alfred 2.
+Download the `google-music-shuffle.alfredworkflow` file and open it to import into Alfred 2/3.
 
 You'll need to have the Powerpack to use this workflow.
 
 ### Changelog
+
+#### 1.2.0 - August 31, 2016
+
+* Fix broken "I'm lucky" after recent Google Music update
+* Tested with Alfred 3
 
 #### 1.1 – October 3, 2015
 

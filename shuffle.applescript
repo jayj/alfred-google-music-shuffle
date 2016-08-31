@@ -44,7 +44,7 @@ on gmusicSendAction()
 
         -- Click the shuffle, Latest playlist, or "I'm feeling lucky" button
         if ("lucky" is equal to "{query}" or "radio" is equal to "{query}") then
-            tell active tab of first window to execute javascript "document.querySelector('[data-id=\"im-feeling-lucky\"]' ).click();"
+            tell active tab of first window to execute javascript "document.querySelector('[data-type=\"imfl\"]' ).click();"
         else if ("latest" is equal to "{query}") then
             tell active tab of first window to execute javascript "document.querySelector('[data-id=\"auto-playlist-recent\"]' ).click(); document.querySelector('[data-id=\"shuffle\"]' ).click();"
         else
